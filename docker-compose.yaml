@@ -1,0 +1,11 @@
+version: '3'
+services:
+  dev:
+    build: .
+    image: dev
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - "/:/rootfs"
+      - "/root/.vscode-server/:/root/.vscode-server/"
+    privileged: true
+    network_mode: "host"
