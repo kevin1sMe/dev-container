@@ -1,7 +1,7 @@
 version: '3'
 services:
-  dev:
-    image: mirrors.tencent.com/red/kv-dev:latest
+  workspace:
+    image: mirrors.tencent.com/red/workspace:latest
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - "/:/rootfs"
