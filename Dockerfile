@@ -32,10 +32,12 @@ RUN wget -q https://download.docker.com/linux/static/stable/x86_64/docker-19.03.
   rm -rf docker*
 
 # install go
-RUN wget -q https://dl.google.com/go/go1.14.linux-amd64.tar.gz &&\
+RUN wget -q https://dl.google.com/go/go1.15.2.linux-amd64.tar.gz &&\
   tar -C /usr/local -xzf go*.tar.gz &&\
   rm -rf go* &&\
   echo 'export PATH=$PATH:/usr/local/go/bin:~/go/bin' >> /etc/bash.bashrc
+
+ENV PATH="/usr/local/go/bin:${PATH}"
 
 # install gopls
 RUN GO111MODULE=on go get golang.org/x/tools/gopls@latest
@@ -91,10 +93,10 @@ RUN wget http://mirrors.ustc.edu.cn/gnu/emacs/emacs-27.1.tar.xz \
 RUN git clone --depth 1 http://github.com/hlissner/doom-emacs ~/.emacs.d 
 
 # 安装doom
-RUN  YES=1 ~/.emacs.d/bin/doom install
+RUN YES=1 ~/.emacs.d/bin/doom install
 
 # 拷贝预定义好的doom-emacs的插件配置
-COPY  doom-init.el ~/.doom.d/init.el
+COPY doom-init.el /root/.doom.d/init.el
 
 # 执行doom sync去安装相关插件
 RUN ~/.emacs.d/bin/doom sync
