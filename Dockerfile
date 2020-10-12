@@ -101,5 +101,10 @@ COPY doom-init.el /root/.doom.d/init.el
 # 执行doom sync去安装相关插件
 RUN ~/.emacs.d/bin/doom sync
 
+# 拷贝 tmux 配置
+COPY .tmux.conf /root/.tmux.conf
+
+ENV SHELL=/usr/bin/bash
+
 # launch sshd
 CMD ["/usr/sbin/sshd", "-D"]
