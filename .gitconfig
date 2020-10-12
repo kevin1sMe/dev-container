@@ -1,0 +1,39 @@
+[user]
+	name = kevinlin
+	email = kevinlin@tencent.com
+
+[color]
+	branch = auto
+	diff = auto
+	grep = auto
+	status = auto
+	interactive = auto
+	ui = true
+
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	last = log -5 HEAD
+
+[push]
+	default = simple
+
+[log]
+    date = local
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[url "http://git.code.oa.com/"]
+    insteadOf= https://git.code.oa.com/
+
+[http]
+    sslVerify = false
+
+[credential]
+	helper = store

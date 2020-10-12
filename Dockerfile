@@ -58,8 +58,9 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && /usr
   echo 'export TERM="xterm-256color"' >> /etc/bash.bashrc
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 
+
 # config git
-RUN git config --global credential.helper store
+COPY .gitconfig /root/.gitconfig
 
 # install git bash prompt
 RUN git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1 &&\
