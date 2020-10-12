@@ -37,6 +37,9 @@ RUN wget -q https://dl.google.com/go/go1.14.linux-amd64.tar.gz &&\
   rm -rf go* &&\
   echo 'export PATH=$PATH:/usr/local/go/bin:~/go/bin' >> /etc/bash.bashrc
 
+# install gopls
+RUN GO111MODULE=on go get golang.org/x/tools/gopls@latest
+
 # config bash completion
 RUN echo 'if [ -f /etc/bash_completion ]; then\n\
   . /etc/bash_completion\n\
@@ -66,7 +69,7 @@ fi' >> ~/.bashrc
 # -------------- doom emacs  ------------------
 
 # 安装emacs依赖
-RUN apt build-dep emacs -yq
+RUN DEBIAN_FRONTEND=noninteractive apt build-dep emacs -yq
 
 # 安装其它依赖
 # ripgrep ripgrep is a line-oriented search tool that recursively searches your current directory for a regex pattern
@@ -81,7 +84,8 @@ RUN wget http://mirrors.ustc.edu.cn/gnu/emacs/emacs-27.1.tar.xz \
     && cd emacs-27.1  \
     && ./configure --with-json \
     && make -j16 \
-    && make install
+    && make install \
+    && rm -rf ~/emacs-27.1* 
 
 # 下载doom-emacs
 RUN git clone --depth 1 http://github.com/hlissner/doom-emacs ~/.emacs.d 
@@ -93,7 +97,7 @@ RUN  YES=1 ~/.emacs.d/bin/doom install
 COPY  doom-init.el ~/.doom.d/init.el
 
 # 执行doom sync去安装相关插件
-RUN ~/.doom.d/bin/doom sync
+RUN ~/.emacs.d/bin/doom sync
 
 # launch sshd
 CMD ["/usr/sbin/sshd", "-D"]
