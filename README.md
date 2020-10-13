@@ -4,10 +4,13 @@
 
 #### 使用docker-compose一键启动
 请确保你的环境已经安装好docker和docker-compose。
-使用命令：
-`docker-compose up`
+* 克隆此项目, 并进入相应目录
+  `git clone http://git.code.oa.com/kevinlin/dev-container.git`
+  `cd dev-container`
+* 使用docker-compose启动环境：
+ `VOLUME="/YourSoureCodeDir" docker-compose up -d`
 
-PS: 母机的`/`会被映射到`/rootfs`目录下。
+PS: 母机的`/YourSoureCodeDir`会被映射到`/root/`目录下。
 
 
 #### 使用docker启动
