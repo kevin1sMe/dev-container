@@ -100,7 +100,9 @@ RUN YES=1 ~/.emacs.d/bin/doom install
 COPY doom-init.el /root/.doom.d/init.el
 
 # 配置 config.el
-RUN echo "(after! doom-themes\n  (remove-hook 'doom-load-theme-hook #'doom-themes-treemacs-config))" >> /root/.doom.d/config.el
+RUN echo "(after! doom-themes\n  (remove-hook 'doom-load-theme-hook #'doom-themes-treemacs-config))" >> /root/.doom.d/config.el 
+RUN echo "(package! protobuf-mode)" >> /root/.doom.d/packages.el
+
 
 # 执行doom sync去安装相关插件
 RUN ~/.emacs.d/bin/doom sync
