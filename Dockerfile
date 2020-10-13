@@ -99,6 +99,9 @@ RUN YES=1 ~/.emacs.d/bin/doom install
 # 拷贝预定义好的doom-emacs的插件配置
 COPY doom-init.el /root/.doom.d/init.el
 
+# 配置 config.el
+RUN echo "(after! doom-themes\n  (remove-hook 'doom-load-theme-hook #'doom-themes-treemacs-config))" >> /root/.doom.d/config.el
+
 # 执行doom sync去安装相关插件
 RUN ~/.emacs.d/bin/doom sync
 
