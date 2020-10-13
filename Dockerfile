@@ -108,6 +108,9 @@ RUN ~/.emacs.d/bin/doom sync
 # 拷贝 tmux 配置
 COPY .tmux.conf /root/.tmux.conf
 
+# 拷贝时区
+COPY localtime /etc/localtime
+
 ENV SHELL=/usr/bin/bash
 
 # launch sshd
