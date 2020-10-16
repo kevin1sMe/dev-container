@@ -8,10 +8,7 @@ services:
       - "${VOLUME}:/root/${VOLUME}"
       - "/root/.vscode-server/:/root/.vscode-server/"
     entrypoint:
-      - tail
-      - -f
-      - /dev/null
-    ports:
-      - "${ADDR:-127.0.0.1:1234}:22"
+      - /usr/sbin/sshd
+      - -D
     privileged: true
     network_mode: "host"
