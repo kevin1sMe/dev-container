@@ -10,7 +10,7 @@ RUN sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
 
 # install essential softwares
 RUN apt-get update -y && apt-get upgrade -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget curl gcc g++ cmake automake autoconf libtool openssh-server python3 python3-pip git sudo tmux screen locales gdb clang openssl bash-completion unzip
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget curl gcc g++ cmake automake autoconf libtool openssh-server python3 python3-pip git sudo tmux screen locales gdb clang openssl bash-completion unzip shellcheck subversion
 
 # setup ssh 
 RUN echo 'PermitRootLogin yes\n\
@@ -112,6 +112,10 @@ COPY .tmux.conf /root/.tmux.conf
 
 # 拷贝时区
 COPY localtime /etc/localtime
+
+# 安装go的一些工具
+COPY go_env.sh /root/go/
+RUN /root/go/go_env.sh
 
 ENV SHELL=/usr/bin/bash
 

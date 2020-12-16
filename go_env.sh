@@ -1,0 +1,10 @@
+#!/bin/bash
+
+go get -u github.com/motemen/gore/cmd/gore
+go get -u github.com/stamblerre/gocode
+go get -u golang.org/x/tools/cmd/godoc
+go get -u golang.org/x/tools/cmd/goimports
+go get -u golang.org/x/tools/cmd/gorename
+go get -u golang.org/x/tools/cmd/guru
+go get -u github.com/cweill/gotests/...
+go get -u github.com/fatih/gomodifytags
