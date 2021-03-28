@@ -32,7 +32,7 @@ RUN wget -q https://download.docker.com/linux/static/stable/x86_64/docker-19.03.
   rm -rf docker*
 
 # install go
-RUN wget -q https://dl.google.com/go/go1.15.2.linux-amd64.tar.gz &&\
+RUN wget -q https://golang.org/dl/go1.16.2.linux-amd64.tar.gz  &&\
   tar -C /usr/local -xzf go*.tar.gz &&\
   rm -rf go* &&\
   echo 'export PATH=$PATH:/usr/local/go/bin:~/go/bin' >> /etc/bash.bashrc
