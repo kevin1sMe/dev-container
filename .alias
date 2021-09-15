@@ -1,0 +1,5 @@
+alias vi="emacs"
+alias vim="emacs"
+
+# 默认的开发环境，使用tmux管理
+alias godev='tmux attach -t dev'
