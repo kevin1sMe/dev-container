@@ -25,6 +25,10 @@
 	process = git-lfs filter-process
 	required = true
 
+[user]
+	name = kevinlin
+	email = kevinlin@tencent.com
+
 [url "http://git.code.oa.com/"]
     insteadOf= https://git.code.oa.com/
 

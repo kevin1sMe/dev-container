@@ -107,12 +107,19 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vi="emacs"
-alias kubeconfig="kubectl config-registry"
+#
+
+source <(kubectl completion zsh)
 alias k="kubectl"
+echo 'compdef __start_kubectl k'
+alias kubeconfig="kubectl config-registry"
+
+alias vi="emacs"
 
 export KUBECONFIG=/root/k8s/red-new.yaml
 export EDITOR=vim
+export LANG="en_US.UTF-8"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
