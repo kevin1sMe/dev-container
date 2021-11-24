@@ -14,8 +14,9 @@ PS: 母机的`/YourSoureCodeDir`会被映射到`/root/`目录下。
 
 
 #### 使用docker启动
-`docker run -it -d --name dev --network host  -v /Your/SourceDir:/root/source  mirrors.tencent.com/red/workspace:latest`
+`docker run -it -d --name dev --network host --privileged=true -v ${SOURCE_DIR_ON_HOST}:/root/source  -v /var/run/docker.sock:/var/run/docker.sock mirrors.tencent.com/red/workspace:latest`
 
 * 使用-d后台运行，可以长期保持你的环境在线。
 * 使用host网络，并且复用了主机的docker服务，你可以在容器内执行docker命令。
 * 使用-v挂载主机的源代码目录到容器内，防止你的修改因容器异常结束或不当的行为导致数据丢失。
+* 挂载了docker方便容器内使用宿主机docker服务。

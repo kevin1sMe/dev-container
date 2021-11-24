@@ -8,11 +8,19 @@ WORKDIR /root
 # 打开deb-src
 RUN sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
 
+# 添加163源
+RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse' /etc/apt/sources.list
+RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse'  /etc/apt/sources.list
+RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse'  /etc/apt/sources.list
+RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse' /etc/apt/sources.list
+
+
 # install essential softwares
 RUN apt-get update -y && apt-get upgrade -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget curl gcc g++ cmake automake autoconf libtool openssh-server python3 python3-pip git sudo tmux screen locales gdb clang openssl bash-completion unzip shellcheck subversion zsh
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget curl gcc g++ cmake automake autoconf libtool openssh-server python3 python3-pip git sudo tmux screen locales gdb clang openssl bash-completion unzip shellcheck subversion zsh vim
 
-# setup ssh 
+
+# setup ssh
 RUN echo 'PermitRootLogin yes\n\
 PasswordAuthentication yes\n\
 PermitEmptyPasswords yes\n\
@@ -32,11 +40,12 @@ RUN wget -q https://download.docker.com/linux/static/stable/x86_64/docker-19.03.
   rm -rf docker*
 
 # install oh-my-zsh
+# 推荐自行换这个主题： powerlevel10k/powerlevel10k
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # install go
-RUN wget -q https://golang.org/dl/go1.16.2.linux-amd64.tar.gz  &&\
-  tar -C /usr/local -xzf go*.tar.gz &&\
+RUN wget -q https://golang.org/dl/go1.16.2.linux-amd64.tar.gz  
+RUN tar -C /usr/local -xzf go*.tar.gz &&\
   rm -rf go* &&\
   echo 'export PATH=$PATH:/usr/local/go/bin:~/go/bin' >> /etc/bash.bashrc
 
@@ -46,9 +55,9 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 RUN GO111MODULE=on go get golang.org/x/tools/gopls@latest
 
 # config bash completion
-RUN echo 'if [ -f /etc/bash_completion ]; then\n\
-  . /etc/bash_completion\n\
-fi' >> /etc/bash.bashrc
+#RUN echo 'if [ -f /etc/bash_completion ]; then\n\
+#  . /etc/bash_completion\n\
+#fi' >> /etc/bash.bashrc
 
 # install kubectl & helm
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl &&\
@@ -66,11 +75,11 @@ ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 COPY .gitconfig /root/.gitconfig
 
 # install git bash prompt
-RUN git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1 &&\
-  echo 'if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then\n\
-  GIT_PROMPT_ONLY_IN_REPO=1\n\
-  source $HOME/.bash-git-prompt/gitprompt.sh\n\
-fi' >> ~/.bashrc
+#RUN git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1 &&\
+#  echo 'if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then\n\
+#  GIT_PROMPT_ONLY_IN_REPO=1\n\
+#  source $HOME/.bash-git-prompt/gitprompt.sh\n\
+#fi' >> ~/.bashrc
 
 # -------------- doom emacs  ------------------
 
@@ -111,17 +120,28 @@ RUN echo "(package! protobuf-mode)" >> /root/.doom.d/packages.el
 RUN ~/.emacs.d/bin/doom sync
 
 # 拷贝 tmux 配置
-COPY .tmux.conf /root/.tmux.conf
+COPY tmux/.tmux.conf /root/.tmux.conf
 
 # 拷贝时区
 COPY localtime /etc/localtime
 
 # 一些环境准备的脚本 
-COPY *.sh /root/script/
-COPY .alias /root/
-RUN chmod +x /root/script/*.sh &&  for a in  script/*; do sh -x $a; done
+#COPY script/*.sh /root/script/
+#COPY .alias /root/
+#RUN chmod +x /root/script/*.sh &&  for a in  script/*; do sh -x $a; done
 
+# zsh配置
+COPY zsh/.zshrc /root/.zshrc
+
+# 安装powerlevel10k主题
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# 这句话好像不起作用
 ENV SHELL=/usr/bin/zsh
+
+COPY setup.sh /root/
+
+RUN chsh -s /usr/bin/zsh
 
 # launch sshd
 CMD ["/usr/sbin/sshd", "-D"]
