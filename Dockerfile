@@ -99,7 +99,7 @@ RUN ~/.emacs.d/bin/doom sync
 
 # ---------------------------
 # install go
-RUN wget -q https://golang.org/dl/go1.16.2.linux-amd64.tar.gz
+RUN wget -q https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go*.tar.gz && rm -rf go*
 # install gopls
 #ENV PATH=/usr/local/bin/go:$PATH
