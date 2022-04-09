@@ -25,7 +25,7 @@ COPY localtime /etc/localtime
 RUN apt-get update -y && apt-get upgrade -y\
  && DEBIAN_FRONTEND=noninteractive apt-get install -y wget curl gcc g++ cmake automake autoconf libtool\
  openssh-server python3 python3-pip git sudo tmux screen locales gdb clang openssl\
- bash-completion unzip shellcheck subversion zsh vim tree
+ bash-completion unzip shellcheck subversion zsh vim tree tini
 # ---------------------------
 
 
@@ -99,7 +99,8 @@ RUN ~/.emacs.d/bin/doom sync
 
 # ---------------------------
 # install go
-RUN wget -q https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
+#RUN wget -q https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
+RUN wget -q https://go.dev/dl/go1.18.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go*.tar.gz && rm -rf go*
 # install gopls
 #ENV PATH=/usr/local/bin/go:$PATH
@@ -156,4 +157,4 @@ COPY zsh/.zshrc /root/.zshrc
 RUN chsh -s /usr/bin/zsh
 
 # launch sshd
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["tini", "--", "/usr/sbin/sshd", "-D"]

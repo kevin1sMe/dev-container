@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=/usr/local/go/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/bin:/usr/local/bin:$PATH:$HOME/.krew/bin
+export PATH=/usr/local/go/bin:$HOME/go/bin:$HOME/bin:/usr/local/bin:$PATH:$HOME/.krew/bin
 # Path to your oh-my-zsh installation.
 export ZSH="/root/.oh-my-zsh"
 
@@ -117,7 +117,7 @@ source $ZSH/oh-my-zsh.sh
 #
 alias vi="emacs"
 
-export KUBECONFIG=/root/k8s/red.yaml
+export KUBECONFIG=$HOME/.k8s/k8s.yaml
 export EDITOR=vim
 export LANG="en_US.UTF-8"
 
