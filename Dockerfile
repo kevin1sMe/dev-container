@@ -28,11 +28,6 @@ RUN apt-get update -y && apt-get upgrade -y\
  bash-completion unzip shellcheck subversion zsh vim tree tini
 # ---------------------------
 
-
-# ---------------------------
-
-
-
 # ----------------------------
 # vim插件及配置等
 RUN git clone --depth=1 https://github.com/kevin1sMe/myvim.git $HOME/.vim && mv $HOME/.vim/.vimrc $HOME/
@@ -94,8 +89,8 @@ RUN echo "(package! protobuf-mode)" >> /root/.doom.d/packages.el
 RUN ~/.emacs.d/bin/doom sync
 # --------------------------------------
 
-
-
+# 可选的一些还不错的工具
+RUN apt-get install -y glances htop iftop iotop bmon dstat jq nethogs iptraf
 
 # ---------------------------
 # install go
@@ -127,7 +122,7 @@ ChallengeResponseAuthentication no\n\
 X11Forwarding yes\n\
 PrintMotd no\n\
 AcceptEnv LANG LC_*\n\
-Port 7822\n\
+Port 22\n\
 Subsystem       sftp    /usr/lib/openssh/sftp-server' > /etc/ssh/sshd_config
 RUN mkdir -p /var/run/sshd && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd &&\
   passwd -d root
