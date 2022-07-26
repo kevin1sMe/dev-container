@@ -94,8 +94,7 @@ RUN apt-get install -y glances htop iftop iotop bmon dstat jq nethogs iptraf
 
 # ---------------------------
 # install go
-#RUN wget -q https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
-RUN wget -q https://go.dev/dl/go1.18.linux-amd64.tar.gz
+RUN wget -q https://go.dev/dl/go1.18.4.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go*.tar.gz && rm -rf go*
 # install gopls
 #ENV PATH=/usr/local/bin/go:$PATH
