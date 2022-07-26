@@ -63,13 +63,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt build-dep emacs -yq
 RUN apt install libjansson-dev ripgrep fd-find libvterm-dev -yq
 
 # 下载并编译emacs
-RUN wget http://mirrors.ustc.edu.cn/gnu/emacs/emacs-27.1.tar.xz \
-    && tar xvf emacs-27.1.tar.xz  \
-    && cd emacs-27.1  \
+RUN wget http://mirrors.ustc.edu.cn/gnu/emacs/emacs-28.1.tar.xz \
+    && tar xvf emacs-28.1.tar.xz  \
+    && cd emacs-28.1  \
     && ./configure --with-json \
     && make -j16 \
     && make install \
-    && rm -rf ~/emacs-27.1*
+    && rm -rf ~/emacs-28.1*
 
 # 下载doom-emacs
 RUN git clone --depth 1 http://github.com/hlissner/doom-emacs ~/.emacs.d
