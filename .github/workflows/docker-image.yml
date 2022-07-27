@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master", "action"]
+    branches: [ "master"]
     tags: ["*"]
 
 env:
@@ -16,14 +16,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: echo "docker build . --file Dockerfile.github --tag ${IMAGE_NAME}:${GITHUB_REF_NAME}"
+      run: docker build . --file Dockerfile.github --tag ${IMAGE_NAME}:${GITHUB_REF_NAME}
     - name: Deploy to docker hub
       run: |
         echo ${{ secrets.DOCKER_HUB_PWD }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin 
         TAG=${GITHUB_REF_NAME}
         if [ $GITHUB_REF_NAME == "master" ]; then 
           TAG="latest"
-          echo "docker tag ${IMAGE_NAME}:latest"
+          docker tag ${IMAGE_NAME}:${GITHUB_REF_NAME} ${IMAGE_NAME}:latest
         fi
         
-        echo "docker push ${IMAGE_NAME}:${TAG}"
+        docker push ${IMAGE_NAME}:${TAG}
