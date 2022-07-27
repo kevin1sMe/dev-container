@@ -21,7 +21,8 @@ jobs:
       run: |
         echo ${{ secrets.DOCKER_HUB_PWD }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin 
         TAG=${GITHUB_REF_NAME}
-        if [ $GITHUB_REF_NAME == "master"]; then 
+        if [ $GITHUB_REF_NAME == "master" ]; then 
+          TAG="latest"
           echo "docker tag ${IMAGE_NAME}:latest"
         fi
         
