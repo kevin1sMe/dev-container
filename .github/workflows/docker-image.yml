@@ -12,7 +12,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: 
+      name: DOCKER_HUB
     steps:
     - uses: actions/checkout@v3
     - name: Deploy to docker hub
