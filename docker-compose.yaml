@@ -1,8 +1,8 @@
 version: '3'
 services:
   dev-container:
-    image: mirrors.tencent.com/red/workspace:latest
-    container_name: workspace
+    image: kevinlin86/dev-container
+    container_name: dev
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - "${VOLUME}:/root/${VOLUME}"
@@ -11,4 +11,5 @@ services:
       - /usr/sbin/sshd
       - -D
     privileged: true
-    network_mode: "host"
+    ports:
+      - "7822:22/tcp"

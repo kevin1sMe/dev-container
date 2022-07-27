@@ -1,22 +1,43 @@
-## 个人基于终端的开发环境（完美替代IDE/vscode/goland之流)
+## 个人多终端适配的开发环境
 
-### 如何使用本方案？
+### 快速使用
+```bash
+# download docker-compose
+mkdir dev-container && cd dev-container && curl -OL https://raw.githubusercontent.com/kevin1sMe/dev-container/master/docker-compose.yaml
 
-#### 使用docker-compose一键启动
-请确保你的环境已经安装好docker和docker-compose。
-* 克隆此项目, 并进入相应目录
-  `git clone http://git.code.oa.com/kevinlin/dev-container.git`
-  `cd dev-container`
-* 使用docker-compose启动环境：
- `VOLUME="/YourSoureCodeDir" docker-compose up -d`
+# setup docker
+VOLUME="/[你的源码路径]" docker-compose up -d
+```
 
-PS: 母机的`/YourSoureCodeDir`会被映射到`/root/`目录下。
+### 特点
+* **完全容器化**方案，一行命令即可，不需要手动安装任何东西。
+* 基于doom-emacs，让你使用vim一样去使用一个强大的命令行编辑器。喜欢命令行的你，或许会爱上它！
+  * 详情见：[doomemacs](https://github.com/doomemacs/doomemacs)
+* 基于VS Code远程开发环境
+  * 修改了一些ssh配置方便你VS Code远程使用。
+* 使用了zsh并且选择了一个美观的主题：**powerlevel10k/powerlevel10k**
 
+---
 
-#### 使用docker启动
-`docker run -it -d --name dev --network host --privileged=true -v ${SOURCE_DIR_ON_HOST}:/root/source  -v /var/run/docker.sock:/var/run/docker.sock mirrors.tencent.com/red/workspace:latest`
-
-* 使用-d后台运行，可以长期保持你的环境在线。
-* 使用host网络，并且复用了主机的docker服务，你可以在容器内执行docker命令。
+### 其它说明
+* 复用了主机的docker服务，你可以在容器内执行docker命令。
 * 使用-v挂载主机的源代码目录到容器内，防止你的修改因容器异常结束或不当的行为导致数据丢失。
-* 挂载了docker方便容器内使用宿主机docker服务。
+* 替换了源为国内的清华源：**mirrors.tuna.tsinghua.edu.cn**
+
+---
+
+### 附带工具
+
+#### 编程语言 & 工具
+* golang1.18
+* python3
+* gcc/g++ 9.4
+* clang/gdb/cmake/git/subversion
+
+#### 其它工具
+* mux screen 
+* bash-completion shellcheck  
+* tree 
+* glances htop iftop iotop bmon dstat nethogs iptraf
+* jq 
+

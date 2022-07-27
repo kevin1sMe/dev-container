@@ -9,12 +9,8 @@ ENV HOME /root
 # ----------------------------
 # 设置源
 RUN sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
-
-# 添加163源
-RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse' /etc/apt/sources.list
-RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse'  /etc/apt/sources.list
-RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse'  /etc/apt/sources.list
-RUN sed -i '1i\deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse' /etc/apt/sources.list
+RUN sed -i -e "s/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/" /etc/apt/sources.list
+RUN sed -i -e "s/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/" /etc/apt/sources.list
 # ----------------------------
 
 # 拷贝时区
@@ -50,7 +46,6 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/inst
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 # --------------------------------------
 
-
 # -------------- doom emacs  ------------------
 # 安装emacs依赖
 RUN DEBIAN_FRONTEND=noninteractive apt build-dep emacs -yq
@@ -75,7 +70,7 @@ RUN wget http://mirrors.ustc.edu.cn/gnu/emacs/emacs-28.1.tar.xz \
 RUN git clone --depth 1 http://github.com/hlissner/doom-emacs ~/.emacs.d
 
 # 安装doom
-RUN YES=1 ~/.emacs.d/bin/doom install
+RUN yes | ~/.emacs.d/bin/doom install
 
 # 拷贝预定义好的doom-emacs的插件配置
 COPY doom-init.el /root/.doom.d/init.el
@@ -96,9 +91,6 @@ RUN apt-get install -y glances htop iftop iotop bmon dstat jq nethogs iptraf
 # install go
 RUN wget -q https://go.dev/dl/go1.18.4.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go*.tar.gz && rm -rf go*
-# install gopls
-#ENV PATH=/usr/local/bin/go:$PATH
-#RUN go get golang.org/x/tools/gopls@latest
 # ---------------------------
 
 
