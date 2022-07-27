@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master","tag/*" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  IMAGE_NAME: kevinlin86/dev-container
+  TAG: ${GITHUB_REF##*/}
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${IMAGE_NAME}:${TAG}
+    - name: Deploy to docker hub
+      run: docker login -u ${{secret.DOCKER_HUB_USER}} -p ${{secret.DOCKER_HUB_PWD}} && docker push ${IMAGE_NAME}:${TAG}
+      
