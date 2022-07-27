@@ -19,5 +19,5 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${IMAGE_NAME}:${TAG}
     - name: Deploy to docker hub
-      run: docker login -u ${{secret.DOCKER_HUB_USER}} -p ${{secret.DOCKER_HUB_PWD}} && docker push ${IMAGE_NAME}:${TAG}
+      run: docker login -u ${{secrets.DOCKER_HUB_USER}} -p ${{secrets.DOCKER_HUB_PWD}} && docker push ${IMAGE_NAME}:${TAG}
       
